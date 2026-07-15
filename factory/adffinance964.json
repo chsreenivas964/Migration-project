@@ -1,0 +1,15 @@
+{
+	"name": "adffinance964",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "26dfb3b5-3e36-45e7-b304-4de89bebc826",
+		"tenantId": "be3e77b5-079e-4fdf-b783-787a117bafee"
+	}
+}
