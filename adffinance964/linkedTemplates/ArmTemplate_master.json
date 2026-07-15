@@ -7,13 +7,29 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adffinance964"
 		},
+		"ADLS_SQL_PARQUET_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLS_SQL_PARQUET'"
+		},
 		"LS_ONPrem_SQLServer_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_ONPrem_SQLServer'"
 		},
+		"LS_Parent_SqlServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_Parent_SqlServer1'"
+		},
 		"LS_Parent_sqlserver_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Parent_sqlserver'"
+		},
+		"LS_SqlServer4_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SqlServer4'"
+		},
+		"LS_SqlServer5_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SqlServer5'"
 		},
 		"SqlServer1_password": {
 			"type": "secureString",
@@ -27,6 +43,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer3'"
 		},
+		"ADLS_SQL_PARQUET_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsfinance964.dfs.core.windows.net/"
+		},
 		"LS_ONPrem_SQLServer_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "DESKTOP-QKVT66D"
@@ -39,9 +59,45 @@
 			"type": "string",
 			"defaultValue": "Sreeni"
 		},
+		"LS_Parent_SqlServer1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-QKVT66D"
+		},
+		"LS_Parent_SqlServer1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "Test DB"
+		},
+		"LS_Parent_SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Sreeni"
+		},
 		"LS_Parent_sqlserver_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsfinance964.dfs.core.windows.net/"
+		},
+		"LS_SqlServer4_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-QKVT66D"
+		},
+		"LS_SqlServer4_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "Test DB"
+		},
+		"LS_SqlServer4_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Sreeni"
+		},
+		"LS_SqlServer5_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-QKVT66D"
+		},
+		"LS_SqlServer5_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "Test DB"
+		},
+		"LS_SqlServer5_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Sreeni"
 		},
 		"SqlServer1_properties_typeProperties_server": {
 			"type": "string",
@@ -106,11 +162,23 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ADLS_SQL_PARQUET_accountKey": {
+						"value": "[parameters('ADLS_SQL_PARQUET_accountKey')]"
+					},
 					"LS_ONPrem_SQLServer_password": {
 						"value": "[parameters('LS_ONPrem_SQLServer_password')]"
 					},
+					"LS_Parent_SqlServer1_password": {
+						"value": "[parameters('LS_Parent_SqlServer1_password')]"
+					},
 					"LS_Parent_sqlserver_accountKey": {
 						"value": "[parameters('LS_Parent_sqlserver_accountKey')]"
+					},
+					"LS_SqlServer4_password": {
+						"value": "[parameters('LS_SqlServer4_password')]"
+					},
+					"LS_SqlServer5_password": {
+						"value": "[parameters('LS_SqlServer5_password')]"
 					},
 					"SqlServer1_password": {
 						"value": "[parameters('SqlServer1_password')]"
@@ -121,6 +189,9 @@
 					"SqlServer3_password": {
 						"value": "[parameters('SqlServer3_password')]"
 					},
+					"ADLS_SQL_PARQUET_properties_typeProperties_url": {
+						"value": "[parameters('ADLS_SQL_PARQUET_properties_typeProperties_url')]"
+					},
 					"LS_ONPrem_SQLServer_properties_typeProperties_server": {
 						"value": "[parameters('LS_ONPrem_SQLServer_properties_typeProperties_server')]"
 					},
@@ -130,8 +201,35 @@
 					"LS_ONPrem_SQLServer_properties_typeProperties_userName": {
 						"value": "[parameters('LS_ONPrem_SQLServer_properties_typeProperties_userName')]"
 					},
+					"LS_Parent_SqlServer1_properties_typeProperties_server": {
+						"value": "[parameters('LS_Parent_SqlServer1_properties_typeProperties_server')]"
+					},
+					"LS_Parent_SqlServer1_properties_typeProperties_database": {
+						"value": "[parameters('LS_Parent_SqlServer1_properties_typeProperties_database')]"
+					},
+					"LS_Parent_SqlServer1_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Parent_SqlServer1_properties_typeProperties_userName')]"
+					},
 					"LS_Parent_sqlserver_properties_typeProperties_url": {
 						"value": "[parameters('LS_Parent_sqlserver_properties_typeProperties_url')]"
+					},
+					"LS_SqlServer4_properties_typeProperties_server": {
+						"value": "[parameters('LS_SqlServer4_properties_typeProperties_server')]"
+					},
+					"LS_SqlServer4_properties_typeProperties_database": {
+						"value": "[parameters('LS_SqlServer4_properties_typeProperties_database')]"
+					},
+					"LS_SqlServer4_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SqlServer4_properties_typeProperties_userName')]"
+					},
+					"LS_SqlServer5_properties_typeProperties_server": {
+						"value": "[parameters('LS_SqlServer5_properties_typeProperties_server')]"
+					},
+					"LS_SqlServer5_properties_typeProperties_database": {
+						"value": "[parameters('LS_SqlServer5_properties_typeProperties_database')]"
+					},
+					"LS_SqlServer5_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SqlServer5_properties_typeProperties_userName')]"
 					},
 					"SqlServer1_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer1_properties_typeProperties_server')]"
@@ -163,6 +261,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "adffinance964_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adffinance964_ArmTemplate_0')]"
+			]
 		}
 	]
 }

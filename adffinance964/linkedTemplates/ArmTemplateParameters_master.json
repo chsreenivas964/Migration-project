@@ -5,10 +5,22 @@
 		"factoryName": {
 			"value": "adffinance964"
 		},
+		"ADLS_SQL_PARQUET_accountKey": {
+			"value": ""
+		},
 		"LS_ONPrem_SQLServer_password": {
 			"value": ""
 		},
+		"LS_Parent_SqlServer1_password": {
+			"value": ""
+		},
 		"LS_Parent_sqlserver_accountKey": {
+			"value": ""
+		},
+		"LS_SqlServer4_password": {
+			"value": ""
+		},
+		"LS_SqlServer5_password": {
 			"value": ""
 		},
 		"SqlServer1_password": {
@@ -20,6 +32,9 @@
 		"SqlServer3_password": {
 			"value": ""
 		},
+		"ADLS_SQL_PARQUET_properties_typeProperties_url": {
+			"value": "https://adlsfinance964.dfs.core.windows.net/"
+		},
 		"LS_ONPrem_SQLServer_properties_typeProperties_server": {
 			"value": "DESKTOP-QKVT66D"
 		},
@@ -29,8 +44,35 @@
 		"LS_ONPrem_SQLServer_properties_typeProperties_userName": {
 			"value": "Sreeni"
 		},
+		"LS_Parent_SqlServer1_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"LS_Parent_SqlServer1_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"LS_Parent_SqlServer1_properties_typeProperties_userName": {
+			"value": "Sreeni"
+		},
 		"LS_Parent_sqlserver_properties_typeProperties_url": {
 			"value": "https://adlsfinance964.dfs.core.windows.net/"
+		},
+		"LS_SqlServer4_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"LS_SqlServer4_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"LS_SqlServer4_properties_typeProperties_userName": {
+			"value": "Sreeni"
+		},
+		"LS_SqlServer5_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"LS_SqlServer5_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"LS_SqlServer5_properties_typeProperties_userName": {
+			"value": "Sreeni"
 		},
 		"SqlServer1_properties_typeProperties_server": {
 			"value": "DESKTOP-QKVT66D"
