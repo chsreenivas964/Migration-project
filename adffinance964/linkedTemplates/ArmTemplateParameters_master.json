@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adffinance964"
+		},
+		"LS_ONPrem_SQLServer_password": {
+			"value": ""
+		},
+		"LS_Parent_sqlserver_accountKey": {
+			"value": ""
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"SqlServer2_password": {
+			"value": ""
+		},
+		"SqlServer3_password": {
+			"value": ""
+		},
+		"LS_ONPrem_SQLServer_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"LS_ONPrem_SQLServer_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"LS_ONPrem_SQLServer_properties_typeProperties_userName": {
+			"value": "Sreeni"
+		},
+		"LS_Parent_sqlserver_properties_typeProperties_url": {
+			"value": "https://adlsfinance964.dfs.core.windows.net/"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "Sreeni"
+		},
+		"SqlServer2_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"SqlServer2_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"SqlServer2_properties_typeProperties_userName": {
+			"value": "Sreeni"
+		},
+		"SqlServer3_properties_typeProperties_server": {
+			"value": "DESKTOP-QKVT66D"
+		},
+		"SqlServer3_properties_typeProperties_database": {
+			"value": "Test DB"
+		},
+		"SqlServer3_properties_typeProperties_userName": {
+			"value": "Sreeni"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
