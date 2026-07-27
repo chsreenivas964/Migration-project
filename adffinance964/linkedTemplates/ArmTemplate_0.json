@@ -466,76 +466,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Child pipeline_StroreProcedure')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SP_UPDATE_WTRMRK",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[UpdateWatermark]",
-							"storedProcedureParameters": {
-								"TableName": {
-									"value": {
-										"value": "@pipeline().parameters.TableName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"TableSchema": {
-									"value": {
-										"value": "@pipeline().parameters.TableSchema",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"WatermarkColumn": {
-									"value": {
-										"value": "@pipeline().parameters.WatermarkColumn",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "LS_ONPrem_SQLServer",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"TableSchema": {
-						"type": "string"
-					},
-					"TableName": {
-						"type": "string"
-					},
-					"WatermarkColumn": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ONPrem_SQLServer')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/PL_ChildPipeline_Storeprocedure')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -881,7 +811,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Child pipeline_Increment')]",
+			"name": "[concat(parameters('factoryName'), '/PL_Child Pipeline_Incremental')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -902,31 +832,30 @@
 							"source": {
 								"type": "SqlServerSource",
 								"sqlReaderQuery": {
-									"value": "SELECT MAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue\nFROM @{pipeline().parameters.TableSchema}.@{pipeline().parameters.TableName}",
+									"value": "SELECT MAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue\r\nFROM @{pipeline().parameters.TableSchema}.@{pipeline().parameters.TableName}",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "DS_LOOKUP_MAX_VALUE",
+								"referenceName": "DS_LKUP_MAX_VALUE",
 								"type": "DatasetReference",
 								"parameters": {
-									"Schemaname": {
+									"schemaname": {
 										"value": "@pipeline().parameters.TableSchema",
 										"type": "Expression"
 									},
-									"Tablename": {
+									"tablename": {
 										"value": "@pipeline().parameters.TableName",
 										"type": "Expression"
 									}
 								}
-							},
-							"firstRowOnly": true
+							}
 						}
 					},
 					{
-						"name": "IF_NEWRECORD_EXISTS",
+						"name": "IF_NEW_RECORD_EXISTS",
 						"type": "IfCondition",
 						"dependsOn": [
 							{
@@ -944,7 +873,7 @@
 							},
 							"ifTrueActivities": [
 								{
-									"name": "COPYSQL_FULL_INCREMENTAL_TABLES",
+									"name": "COPYSQL_FULL_INCTLOAD_TABLES",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -959,7 +888,7 @@
 										"source": {
 											"type": "SqlServerSource",
 											"sqlReaderQuery": {
-												"value": "@concat(\n    'SELECT * FROM ',\n    pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName,\n    if(\n        equals(pipeline().parameters.LastLoadValue, null),\n        '', \n        concat(\n            ' WHERE ', pipeline().parameters.WatermarkColumn,\n            ' > ''', pipeline().parameters.LastLoadValue, ''''\n        )\n    )\n)\n",
+												"value": "@concat(\r\n    'SELECT * FROM ',\r\n    pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName,\r\n    if(\r\n        equals(pipeline().parameters.LastLoadValue, null),\r\n        '', \r\n        concat(\r\n            ' WHERE ', pipeline().parameters.WatermarkColumn,\r\n            ' > ''', pipeline().parameters.LastLoadValue, ''''\r\n        )\r\n    )\r\n)\r\n",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00",
@@ -986,14 +915,14 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "DS_LOOKUP_MAXVALUE",
+											"referenceName": "DS_LKUP_MAX_VALUE",
 											"type": "DatasetReference",
 											"parameters": {
-												"Schemaname": {
+												"schemaname": {
 													"value": "@pipeline().parameters.TableSchema",
 													"type": "Expression"
 												},
-												"Tablename": {
+												"tablename": {
 													"value": "@pipeline().parameters.TableName",
 													"type": "Expression"
 												}
@@ -1002,7 +931,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DS_Sqlserver_Parquet",
+											"referenceName": "Parquet1",
 											"type": "DatasetReference",
 											"parameters": {
 												"Table_Name": {
@@ -1014,11 +943,11 @@
 									]
 								},
 								{
-									"name": "EXE_UPDATE_WATRMRK_Childpipline",
+									"name": "EXEC_UPDATE_WATERMARK_Childpipeline",
 									"type": "ExecutePipeline",
 									"dependsOn": [
 										{
-											"activity": "COPYSQL_FULL_INCREMENTAL_TABLES",
+											"activity": "COPYSQL_FULL_INCTLOAD_TABLES",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -1030,7 +959,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "Child pipeline_StroreProcedure",
+											"referenceName": "PL_ChildPipeline_Storeprocedure",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
@@ -1071,13 +1000,117 @@
 						"type": "string"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2026-07-14T16:20:20Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_LOOKUP_MAX_VALUE')]",
-				"[concat(variables('factoryId'), '/datasets/DS_LOOKUP_MAXVALUE')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Sqlserver_Parquet')]",
-				"[concat(variables('factoryId'), '/pipelines/Child pipeline_StroreProcedure')]"
+				"[concat(variables('factoryId'), '/datasets/DS_LKUP_MAX_VALUE')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_ChildPipeline_Storeprocedure')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_Parent_Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LKUP_SQLTABLE_WATRMRK_DW",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "SELECT TableSchema, TableName, WatermarkColumn, LastLoadValue FROM dbo.ADF_Watermark_Table; ",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_SQLSERVER_TBLLKUP",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachSQLTable",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LKUP_SQLTABLE_WATRMRK_DW",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LKUP_SQLTABLE_WATRMRK_DW').output.value\n",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "EXEC_SQL_INCREMENTAL_Child Pipeline",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_Child Pipeline_Incremental",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"TableSchema": {
+												"value": "@item().TableSchema",
+												"type": "Expression"
+											},
+											"TableName": {
+												"value": "@item().TableName",
+												"type": "Expression"
+											},
+											"WatermarkColumn": {
+												"value": "@item().WatermarkColumn",
+												"type": "Expression"
+											},
+											"LastLoadValue": {
+												"value": "@item().LastLoadValue",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-07-14T16:20:20Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQLSERVER_TBLLKUP')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_Child Pipeline_Incremental')]"
 			]
 		}
 	]
